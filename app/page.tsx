@@ -27,9 +27,14 @@ export default function Home() {
     // Connect to LiveKit
     await newRoom.connect(process.env.NEXT_PUBLIC_LIVEKIT_URL!, token);
 
-    // Enable local mic & camera
-    await newRoom.localParticipant.setMicrophoneEnabled(true);
-    await newRoom.localParticipant.setCameraEnabled(true);
+    try{
+
+      // Enable local mic & camera
+      await newRoom.localParticipant.setMicrophoneEnabled(true);
+      await newRoom.localParticipant.setCameraEnabled(true);
+    } catch(err){
+      console.error('Error enabling mic/camera:', err);
+    }
 
     // Wait for camera to be enabled and attach dynamically
     newRoom.localParticipant.on('trackPublished', (pub) => {
